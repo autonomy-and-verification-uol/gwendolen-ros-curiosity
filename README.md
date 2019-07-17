@@ -19,7 +19,7 @@ To run the Inspection simulation:
    * To test that the simulation is working, run `roslaunch curiosity_mars_rover_description main_real_mars.launch` and press play on the Gazebo window (the curiosity shouldn't do anything, but there should be no errors in the terminal)
 3.  Copy the `src` folder to MCAPL root
 4. Launch the simulation in ros `roslaunch jackal_gazebo jackal_world_with_rosbridge.launch` but do not press play yet
-5. If you installed MCAPL in Eclipse, go to `src/examples/gwendolen/ros/curiosity/inspection`, right-click jackal.ail, select run as > run configurations, type run-AIL in the search box (should be there if MCAPL was installed correctly), and click on run
+5. If you installed MCAPL in Eclipse, go to `src/examples/gwendolen/ros/curiosity/inspection`, right-click curiosity.ail, select run as > run configurations, type run-AIL in the search box (should be there if MCAPL was installed correctly), and click on run
 
 **or**
 
