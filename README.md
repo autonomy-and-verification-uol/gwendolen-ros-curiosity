@@ -20,6 +20,10 @@ To run the Inspection simulation:
 3.  Copy the `src` folder to MCAPL root
 4. Launch the simulation in ros `roslaunch jackal_gazebo jackal_world_with_rosbridge.launch` but do not press play yet
 5. If you installed MCAPL in Eclipse, go to `src/examples/gwendolen/ros/curiosity/inspection`, right-click jackal.ail, select run as > run configurations, type run-AIL in the search box (should be there if MCAPL was installed correctly), and click on run
-   * The robot will move to a specific coordinate in the world.
-5. If you prefer running from the command line, edit the file build.xml on the root folder of mcapl to add this line in the <fileset> group of <path>: <include name="lib/3rdparty/java_rosbridge_all.jar"/>, and run ant compile on the root folder of mcapl. Then, from the mcapl root folder, use this command to run the agent `java -cp .:bin:lib/3rdparty/RunJPF.jar:lib/3rdparty/java_rosbridge_all.jar:lib/3rdparty/system-rules-1.16.0.jar:lib/3rdparty/junit-4.10.jar:lib/3rdparty/json-simple-1.1.1.jar:lib/3rdparty/jpl.jar:lib/3rdparty/jpf-classes.jar:lib/3rdparty/jpf-annotations.jar:lib/3rdparty/java-prolog-parser.jar:lib/3rdparty/ev3tools.jar:lib/3rdparty/ev3classes.jar:lib/3rdparty/eis-0.5.0.jar:lib/3rdparty/jpf.jar:lib/3rdparty/antlr-4.7-complete.jar:lib/3rdparty/commons-io-2.4.jar:lib/3rdparty/mapdbWrapper.jar ail.mas.AIL src/examples/gwendolen/ros/curiosity/inspection/curiosity.ail`
+
+**or**
+
+If you prefer running from the command line, edit the file build.xml on the root folder of mcapl to add this line in the <fileset> group of <path>: <include name="lib/3rdparty/java_rosbridge_all.jar"/>, and run ant compile on the root folder of mcapl. Then, from the mcapl root folder, use this command to run the agent `java -cp .:bin:lib/3rdparty/RunJPF.jar:lib/3rdparty/java_rosbridge_all.jar:lib/3rdparty/system-rules-1.16.0.jar:lib/3rdparty/junit-4.10.jar:lib/3rdparty/json-simple-1.1.1.jar:lib/3rdparty/jpl.jar:lib/3rdparty/jpf-classes.jar:lib/3rdparty/jpf-annotations.jar:lib/3rdparty/java-prolog-parser.jar:lib/3rdparty/ev3tools.jar:lib/3rdparty/ev3classes.jar:lib/3rdparty/eis-0.5.0.jar:lib/3rdparty/jpf.jar:lib/3rdparty/antlr-4.7-complete.jar:lib/3rdparty/commons-io-2.4.jar:lib/3rdparty/mapdbWrapper.jar ail.mas.AIL src/examples/gwendolen/ros/curiosity/inspection/curiosity.ail`
+  
 6. Once ROS and the agent are running, press play on the Gazebo window
+  * The curiosity will patrol four different waypoints
