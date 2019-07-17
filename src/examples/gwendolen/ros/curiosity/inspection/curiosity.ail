@@ -1,0 +1,7 @@
+mas.file = /src/examples/gwendolen/ros/curiosity/inspection/curiosity.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+env = gwendolen.ros.curiosity.inspection.RosEnv
+
+log.warning = ajpf.MCAPLAgent
+log.format = brief

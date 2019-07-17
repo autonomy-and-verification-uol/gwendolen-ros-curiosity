@@ -1,0 +1,44 @@
+<launch>
+   <node name="curiosity_rover_arm_node"
+		 pkg="curiosity_mars_rover_description"
+		 type="arm_server.py"
+		 respawn="false"
+		 output="screen"
+    	 args=""/>
+    	 
+   <node name="arm_client_py"
+		 pkg="curiosity_mars_rover_description"
+		 type="arm_client.py"
+		 respawn="false"
+		 output="screen"
+    	 args=""/>
+    	 
+   <node name="curiosity_rover_mast_node"
+		 pkg="curiosity_mars_rover_description"
+		 type="mast_server.py"
+		 respawn="false"
+		 output="screen"
+    	 args=""/>
+    	 
+   <node name="mast_client_py"
+		 pkg="curiosity_mars_rover_description"
+		 type="mast_client.py"
+		 respawn="false"
+		 output="screen"
+    	 args=""/>
+    	 
+   <node name="curiosity_rover_wheels_node"
+		 pkg="curiosity_mars_rover_description"
+		 type="wheels_server.py"
+		 respawn="false"
+		 output="screen"
+    	 args=""/>
+    	 
+   <node name="wheels_client_py"
+		 pkg="curiosity_mars_rover_description"
+		 type="wheels_client.py"
+		 respawn="false"
+		 output="screen"
+    	 args=""/>
+ 		  
+</launch>

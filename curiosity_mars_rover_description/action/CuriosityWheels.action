@@ -1,0 +1,9 @@
+#goal definition
+string mode
+int64 distance
+---
+#result definition
+bool result
+---
+#feedback
+float64[] position

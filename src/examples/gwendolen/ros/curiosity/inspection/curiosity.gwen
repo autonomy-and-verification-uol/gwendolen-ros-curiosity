@@ -1,0 +1,49 @@
+GWENDOLEN
+
+:name: curiosity
+
+:Initial Beliefs:
+ready(0)
+patrol("firstturn")
+
+
+:Reasoning Rules:
+
+:Initial Goals:
+//test_arm("open") [perform]
+//test_mast("open") [perform]
+//test_wheels("backward") [perform]
+
+
+:Plans:
+
++!test_arm(Mode) [perform] : {True} 
+<- control_arm(Mode);
+
++!test_mast(Mode) [perform] : {True} 
+<- control_mast(Mode);
+
++!test_wheels(Mode) [perform] : {True} 
+<- control_wheels(Mode);
+
++!start [perform] : {True} 
+<- control_wheels("right",45),
+   control_mast("open");
+
++actuator_ready(Type) : { B ready(0) } <- -actuator_ready(Type), -ready(0), print("Actuator ",Type," is ready"), +ready(1);
++actuator_ready(Type) : { B ready(1) } <- -actuator_ready(Type), -ready(1), print("Actuator ",Type," is ready"), +ready(2);
++actuator_ready(Type) : { B ready(2) } <- -actuator_ready(Type), -ready(2), print("Actuator ",Type," is ready. This is the last actuator starting the patrol behaviour"), +!start [perform];
+
++movement_completed : { B patrol("firstturn") } <- -movement_completed, -patrol("firstturn"), +patrol("halfforward"), print("Finished first turn sending forward movement"), control_wheels("forward",35);
++movement_completed : { B patrol("halfforward") } <- -movement_completed, -patrol("halfforward"), +patrol("finalturn"), print("Turning one more time"), control_wheels("right",45);
++movement_completed : { B patrol("finalturn") } <- -movement_completed, -patrol("finalturn"), +patrol("A"), +patrol("turn"), print("Moving to Waypoint A"), control_wheels("forward",50);
++movement_completed : { B patrol("A"), B patrol("turn")  } <- -movement_completed, -patrol("turn"), print("Turning to go to Waypoint B"), control_wheels("right",45), control_mast("close"), control_arm("open");
++movement_completed : { B patrol("A"), ~B patrol("turn") } <- -movement_completed, -patrol("A"), +patrol("B"), +patrol("turn"), print("Moving to Waypoint B"), control_wheels("forward",50);
++movement_completed : { B patrol("B"), B patrol("turn")  } <- -movement_completed, -patrol("turn"), print("Turning to go to Waypoint C"), control_wheels("right",45);
++movement_completed : { B patrol("B"), ~B patrol("turn") } <- -movement_completed, -patrol("B"), +patrol("C"), +patrol("turn"), print("Moving to Waypoint C"), control_wheels("forward",100); 
++movement_completed : { B patrol("C"), B patrol("turn")  } <- -movement_completed, -patrol("turn"), print("Turning to go to Waypoint D"), control_wheels("right",45), control_mast("open"), control_arm("close");
++movement_completed : { B patrol("C"), ~B patrol("turn") } <- -movement_completed, -patrol("C"), +patrol("D"), +patrol("turn"), print("Moving to Waypoint D"), control_wheels("forward",100);
++movement_completed : { B patrol("D"), B patrol("turn")  } <- -movement_completed, -patrol("turn"), print("Turning to go to Waypoint A"), control_wheels("right",45);
++movement_completed : { B patrol("D"), ~B patrol("turn") } <- -movement_completed, -patrol("D"), +patrol("A"), +patrol("turn"), print("Moving to Waypoint A"), control_wheels("forward",100);
+
+
