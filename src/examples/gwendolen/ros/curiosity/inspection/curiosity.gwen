@@ -46,4 +46,5 @@ patrol("firstturn")
 +movement_completed : { B patrol("D"), B patrol("turn")  } <- -movement_completed, -patrol("turn"), print("Turning to go to Waypoint A"), control_wheels("right",45);
 +movement_completed : { B patrol("D"), ~B patrol("turn") } <- -movement_completed, -patrol("D"), +patrol("A"), +patrol("turn"), print("Moving to Waypoint A"), control_wheels("forward",100);
 
-
++mast(Status) : { True } <- print("mast status ", Status); 
++arm(Status) : { True } <- print("arm status ", Status); 

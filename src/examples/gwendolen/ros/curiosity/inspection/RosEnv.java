@@ -27,19 +27,19 @@ import ros.tools.PeriodicPublisher;
 
 public class RosEnv extends DefaultEnvironment{
 	static final String logname = "gwendolen.ros.curiosity.inspection.RosEnv";
-	
+
 	RosBridge bridge = new RosBridge();
-	
-	
+
+
 	/**
 	 * Constructor.  Decides upon the number of humans, buildings and rubble.
 	 */
 	public RosEnv() {
 		super();
-		
+
 		bridge.connect("ws://localhost:9090", true);
 		System.out.println("Environment started, connection with ROS established.");
-		
+
 		bridge.subscribe(SubscriptionRequestMsg.generate("/curiosity_to_agent")
 				.setType("std_msgs/String")
 //				.setThrottleRate(1)
@@ -57,12 +57,24 @@ public class RosEnv extends DefaultEnvironment{
 //					System.out.println("Stamp sec: "+msg.status.goal_id.stamp.secs);
 //					System.out.println("Status: "+msg.status.status);
 //					System.out.println("Text: "+msg.status.text);
-//					
+//
 //					System.out.println();
 					if (msg.data.equals("done")) {
 						Literal movement_completed = new Literal("movement_completed");
 						//movement_completed.addTerm(new StringTermImpl(msg.data));
 						addPercept(movement_completed);
+					} else if (msg.data.startsWith("mast(")) {
+						Literal mast_result = new Literal("mast");
+						System.out.println(msg.data);
+						mast_result.addTerm(new StringTermImpl(msg.data.substring(5, msg.data.length()-1)));
+						//movement_completed.addTerm(new StringTermImpl(msg.data));
+						addPercept(mast_result);
+					}  else if (msg.data.startsWith("arm(")) {
+						System.out.println(msg.data);
+						Literal arm_result = new Literal("arm");
+						arm_result.addTerm(new StringTermImpl(msg.data.substring(4, msg.data.length()-1)));
+						//movement_completed.addTerm(new StringTermImpl(msg.data));
+						addPercept(arm_result);
 					}
 					else {
 						Literal actuator_ready = new Literal("actuator_ready");
@@ -72,7 +84,7 @@ public class RosEnv extends DefaultEnvironment{
 				}
 			}
 	    );
-		
+
 		bridge.subscribe(SubscriptionRequestMsg.generate("/move_base/result")
 				.setType("move_base_msgs/MoveBaseActionResult"),
 //				.setThrottleRate(1)
@@ -89,7 +101,7 @@ public class RosEnv extends DefaultEnvironment{
 //					System.out.println("Stamp sec: "+msg.status.goal_id.stamp.secs);
 //					System.out.println("Status: "+msg.status.status);
 //					System.out.println("Text: "+msg.status.text);
-//					
+//
 //					System.out.println();
 					Literal movebase_result = new Literal("movebase_result");
 					movebase_result.addTerm(new NumberTermImpl(msg.header.seq));
@@ -98,9 +110,9 @@ public class RosEnv extends DefaultEnvironment{
 				}
 			}
 	    );
-		
+
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see ail.mas.DefaultEnvironment#executeAction(java.lang.String, ail.syntax.Action)
@@ -152,13 +164,13 @@ public class RosEnv extends DefaultEnvironment{
 			e.printStackTrace();
 			}
 		}
-		
+
 		return super.executeAction(agName, act);
 	}
-	
+
 	public void hello_ros() {
 		Publisher pub = new Publisher("/java_to_ros", "std_msgs/String", bridge);
-		
+
 		for(int i = 0; i < 100; i++) {
 			pub.publish(new PrimitiveMsg<String>("hello from gwendolen " + i));
 			try {
@@ -168,23 +180,23 @@ public class RosEnv extends DefaultEnvironment{
 			}
 		}
 	}
-	
+
 	public void move(double lx, double ly, double lz, double ax, double ay, double az) {
 		Publisher cmd_vel = new Publisher("/cmd_vel", "geometry_msgs/Twist", bridge);
-		
+
 		Vector3 linear = new Vector3(lx,ly,lz);
 		Vector3 angular = new Vector3(ax,ay,az);
 		cmd_vel.publish(new Twist(linear, angular));
 	}
-	
+
 	public void move(double lx, double ly, double lz) {
 		Publisher move_base = new Publisher("/gwendolen_to_move_base", "geometry_msgs/Vector3", bridge);
 		move_base.publish(new Vector3(lx,ly,lz));
 	}
-	
+
 	public void keep_moving(int period, double lx, double ly, double lz, double ax, double ay, double az) {
 		PeriodicPublisher cmd_vel = new PeriodicPublisher("/cmd_vel", "geometry_msgs/Twist", bridge);
-		
+
 		Vector3 linear = new Vector3(lx,ly,lz);
 		Vector3 angular = new Vector3(ax,ay,az);
 		cmd_vel.beginPublishing(new Twist(linear, angular), 2000);
@@ -192,22 +204,22 @@ public class RosEnv extends DefaultEnvironment{
 
 	public void stop_moving() {
 		Publisher cmd_vel = new Publisher("/cmd_vel", "geometry_msgs/Twist", bridge);
-		
+
 		Vector3 linear = new Vector3(0.0,0.0,0.0);
 		Vector3 angular = new Vector3(0.0,0.0,0.0);
 		cmd_vel.publish(new Twist(linear, angular));
 	}
-	
+
 	public void control_arm(String modereq) {
 		Publisher arm_control = new Publisher("/gwendolen_curiosity_arm", "std_msgs/String", bridge);
 		arm_control.publish(new PrimitiveMsg<String>(modereq));
 	}
-	
+
 	public void control_mast(String modereq) {
 		Publisher mast_control = new Publisher("/gwendolen_curiosity_mast", "std_msgs/String", bridge);
 		mast_control.publish(new PrimitiveMsg<String>(modereq));
 	}
-	
+
 	public void control_wheels(String modereq, int distancereq) {
 		Publisher wheels_control = new Publisher("/gwendolen_curiosity_wheels", "std_msgs/String", bridge);
 		Publisher wheels_distance = new Publisher("/gwendolen_curiosity_wheels_distance", "std_msgs/Int64", bridge);
@@ -220,12 +232,10 @@ public class RosEnv extends DefaultEnvironment{
 		}
 		wheels_distance.publish(new PrimitiveMsg<Integer>(distancereq));
 	}
-	
+
 	@Override
 	public boolean done() {
 		return false;
 	}
 
 }
-
-	

@@ -13,11 +13,13 @@ def arm_client(modereq):
 	client.send_goal(goal)
 	client.wait_for_result()
 	return client.get_result()
-		
+
 def goal_arm(modereq):
 	try:
 		result = arm_client(modereq.data)
 		rospy.loginfo("Arm Action Result: %s" % (result.result))
+		ag_pub = rospy.Publisher('curiosity_to_agent', String, queue_size=4, latch=True)
+		ag_pub.publish('arm(' + modereq.data + ')')
 	except rospy.ROSInterruptException:
 		rospy.loginfo("program interrupted before completion", file=sys.stderr)
 
