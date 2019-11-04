@@ -3,7 +3,7 @@ Examples of a Gwendolen agent autonomously controlling a Mars Curiosity Rover.
 
 Curiosity model and Mars world courtesy of [The Construct](https://bitbucket.org/theconstructcore/curiosity_mars_rover/src/master/).
 
-**Tested on Ubuntu 16.04 with ROS Kinetic** (it might work on different versions, but there is no confirmation yet).
+**Tested on Ubuntu 16.04 with ROS Kinetic and Ubuntu 18.04 with ROS Melodic** (it might work on different versions, but there is no confirmation yet).
 
 Requires [MCAPL](https://github.com/mcapl/mcapl) to be installed and tested to run correctly.
 
