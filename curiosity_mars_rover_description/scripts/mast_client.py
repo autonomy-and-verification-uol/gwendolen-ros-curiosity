@@ -7,13 +7,14 @@ import curiosity_mars_rover_description.msg
 from std_msgs.msg import String
 
 def mast_client(modereq):
+	rospy.loginfo("New mode requested: %s" % (modereq))
 	client = actionlib.SimpleActionClient('curiosity_rover_mast_node', curiosity_mars_rover_description.msg.CuriosityMastAction)
 	client.wait_for_server()
 	goal = curiosity_mars_rover_description.msg.CuriosityMastGoal(mode=modereq)
 	client.send_goal(goal)
 	client.wait_for_result()
 	return client.get_result()
-
+		
 def goal_mast(modereq):
 	try:
 		result = mast_client(modereq.data)

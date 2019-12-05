@@ -1,6 +1,7 @@
 #goal definition
 string mode
-int64 distance
+uint64 distance
+float64 speed
 ---
 #result definition
 bool result

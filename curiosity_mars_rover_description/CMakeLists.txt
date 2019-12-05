@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   genmsg
   actionlib_msgs
   gazebo_ros
+  message_generation
 )
 
 add_action_files(
@@ -19,6 +20,11 @@ add_action_files(
   FILES CuriosityArm.action
   FILES CuriosityMast.action
   FILES CuriosityWheels.action
+)
+
+add_message_files(
+  FILES
+  Move3.msg
 )
 
 find_package(gazebo REQUIRED)
@@ -41,6 +47,7 @@ catkin_package(
     roscpp
     gazebo_ros
     actionlib_msgs
+    message_runtime
 )
 
 catkin_install_python(PROGRAMS
@@ -52,3 +59,7 @@ catkin_install_python(PROGRAMS
   scripts/wheels_server.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+install(DIRECTORY launch worlds models
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  USE_SOURCE_PERMISSIONS)

@@ -13,7 +13,7 @@ def arm_client(modereq):
 	client.send_goal(goal)
 	client.wait_for_result()
 	return client.get_result()
-
+		
 def goal_arm(modereq):
 	try:
 		result = arm_client(modereq.data)

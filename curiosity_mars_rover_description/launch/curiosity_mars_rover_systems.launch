@@ -4,7 +4,8 @@
 		 type="arm_server.py"
 		 respawn="false"
 		 output="screen"
-    	 args=""/>
+    	 args="">
+    	 </node>
     	 
    <node name="arm_client_py"
 		 pkg="curiosity_mars_rover_description"
@@ -18,7 +19,8 @@
 		 type="mast_server.py"
 		 respawn="false"
 		 output="screen"
-    	 args=""/>
+    	 args="">
+    	 </node>
     	 
    <node name="mast_client_py"
 		 pkg="curiosity_mars_rover_description"
@@ -32,13 +34,17 @@
 		 type="wheels_server.py"
 		 respawn="false"
 		 output="screen"
-    	 args=""/>
+    	 args="">
+    	 </node>
+    	 
     	 
    <node name="wheels_client_py"
 		 pkg="curiosity_mars_rover_description"
 		 type="wheels_client.py"
 		 respawn="false"
 		 output="screen"
-    	 args=""/>
+    	 args="">
+    	 <remap from="gwendolen_curiosity_wheels" to="gwendolen_curiosity_wheels_mon"/>
+    	 </node>
  		  
 </launch>

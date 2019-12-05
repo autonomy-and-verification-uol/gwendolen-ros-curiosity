@@ -64,24 +64,25 @@ class CuriosityMarsRoverWheels(object):
 	def execute_cb(self, goal):
 		wheels_action_requested = goal.mode
 		wheels_distance_requested = goal.distance
+		wheels_speed_requested = goal.speed
 		if wheels_action_requested == "forward":
 			rospy.logwarn("CuriosityRover moving forwards")
-			self._result.result = self.move_forwards(wheels_distance_requested)
+			self._result.result = self.move_forwards(wheels_distance_requested, wheels_speed_requested)
 			#~ self._result.result = self.move_with_cmd_vel()
 			self._as.set_succeeded(self._result)
 		elif wheels_action_requested == "backward":
 			rospy.logwarn("CuriosityRover moving backwards")
-			self._result.result = self.move_backwards(wheels_distance_requested)
+			self._result.result = self.move_backwards(wheels_distance_requested, wheels_speed_requested)
 			#~ self._result.result = self.move_with_cmd_vel()
 			self._as.set_succeeded(self._result)
 		elif wheels_action_requested == "left":
 			rospy.logwarn("CuriosityRover moving left")
-			self._result.result = self.move_turn_left(wheels_distance_requested)
+			self._result.result = self.move_turn_left(wheels_distance_requested, wheels_speed_requested)
 			#~ self._result.result = self.move_with_cmd_vel()
 			self._as.set_succeeded(self._result)
 		elif wheels_action_requested == "right":
 			rospy.logwarn("CuriosityRover moving right")
-			self._result.result = self.move_turn_right(wheels_distance_requested)
+			self._result.result = self.move_turn_right(wheels_distance_requested, wheels_speed_requested)
 			#~ self._result.result = self.move_with_cmd_vel()
 			self._as.set_succeeded(self._result)
 		elif wheels_action_requested == "stop":
@@ -211,47 +212,47 @@ class CuriosityMarsRoverWheels(object):
 		self.middle_wheel_L.publish(self.middle_wheel_L_velocity_msg)
 		self.middle_wheel_R.publish(self.middle_wheel_R_velocity_msg)
 
-	def move_forwards(self, distance):
+	def move_forwards(self, distance, speed):
 		self.set_turning_radius(None)
 		t0 = rospy.Time.now().to_sec()
 		current_distance = 0
 		while(current_distance < distance):
-			self.set_wheels_speed(15.0)
+			self.set_wheels_speed(speed)
 			t1=rospy.Time.now().to_sec()
-			current_distance= 15*(t1-t0)
+			current_distance= speed*(t1-t0)
 		self.move_turn_stop()
 		return True
 
-	def move_backwards(self, distance):
+	def move_backwards(self, distance, speed):
 		self.set_turning_radius(None)
 		t0 = rospy.Time.now().to_sec()
 		current_distance = 0
 		while(current_distance < distance):
-			self.set_wheels_speed(-15.0)
+			self.set_wheels_speed(speed)
 			t1=rospy.Time.now().to_sec()
-			current_distance= 15*(t1-t0)
+			current_distance= speed*(t1-t0)
 		self.move_turn_stop()
 		return True
 
-	def move_turn_left(self, distance):
+	def move_turn_left(self, distance, speed):
 		self.set_turning_radius(1.0)
 		t0 = rospy.Time.now().to_sec()
 		current_distance = 0
 		while(current_distance < distance):
-			self.set_wheels_speed(10.0)
+			self.set_wheels_speed(speed)
 			t1=rospy.Time.now().to_sec()
-			current_distance= 10*(t1-t0)
+			current_distance= speed*(t1-t0)
 		self.move_turn_stop()
 		return True
 
-	def move_turn_right(self, distance):
+	def move_turn_right(self, distance, speed):
 		self.set_turning_radius(-1.0)
 		t0 = rospy.Time.now().to_sec()
 		current_distance = 0
 		while(current_distance < distance):
-			self.set_wheels_speed(10.0)
+			self.set_wheels_speed(speed)
 			t1=rospy.Time.now().to_sec()
-			current_distance= 10*(t1-t0)
+			current_distance= speed*(t1-t0)
 		self.move_turn_stop()
 		return True
 
