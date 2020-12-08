@@ -5,7 +5,7 @@ Curiosity model and Mars world courtesy of [The Construct](https://bitbucket.org
 
 **Tested on Ubuntu 16.04 with ROS Kinetic and Ubuntu 18.04 with ROS Melodic** (it might work on different versions, but there is no confirmation yet).
 
-Requires [MCAPL](https://github.com/mcapl/mcapl) to be installed and tested to run correctly.
+Requires [MCAPL](https://autonomy-and-verification.github.io/tools/mcapl) to be installed and tested to run correctly.
 
 Requires [Gwendolen-Rosbridge](https://github.com/autonomy-and-verification-uol/gwendolen-rosbridge) to be installed and tested to run correctly.
 
